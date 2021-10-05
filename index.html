@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form validation</title>
+    
+    <style>
+        body{
+           background-color: aquamarine; 
+           
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height:90vh;
+        }
+         
+        
+        .form{
+            background-color: white;
+            text-align: center;
+            padding: 50px;
+            /* height: 300px; */
+        }
+        
+        input{
+            width: 280px;
+            height: 30px;
+            /* border: 1px solid black; */
+            /* border-radius: 5px; */
+            text-align: center;
+            margin: 10px, 0px;
+            padding: 3px;
+        }
+
+        #btn{
+        background-color:aqua;
+        border: 0px;
+        color:black;
+       
+        }
+        .error{
+            color: red;
+        }
+        #btn:hover{
+                background-color: salmon;
+        }
+
+    </style>
+</head>
+<body>
+    
+        <div class="form">
+           
+            <form  action="#"  onsubmit="return validation()">
+               <input type="text"  id="user" placeholder="Enter Name"><br>
+                  <p id="userr" class="error"></p><br>
+
+                <input type="text"  id="email" placeholder="Email" value=""><br>
+                <p id="eemail"  class="error"></p><br>
+
+               <input type="text"  id="mobile-no" placeholder="Enter mobile no"  ><br>
+               <label id="provider"></label>-<label id="state"></label>
+               <p id="number" class="error"></p><br>
+
+                <input type="submit"  id="btn" value="submit">
+            </form>
+            <br>
+            <p id='message'></p><p style='display:block' id='otp'></p>
+            <input type="text"   placeholder="Enter OTP"  id='random'><br>
+            <button id='validate' onclick="validateBtn()">Validate</button>
+
+            <h2 id="success"></h2>
+        </div>
+
+        <div>
+
+           
+        </div>
+    
+    <script>
+        
+var validationNumber;
+        function validation()
+        {
+            var isValid = false;
+            var correct_way =  /^[a-zA-Z\s]*$/;
+             var user= document.getElementById('user').value;
+             
+             var wordCount = user.trim().split(/\s+/).length;
+            if(user == "")
+             {
+                document.getElementById('userr').innerHTML="**please enter  name**";
+              
+            }
+            else if(user.length<4)
+            {
+                document.getElementById('userr').innerHTML="**please enter min 4 char**";
+               
+            }
+             else if(!user.match(correct_way))
+                {
+                    document.getElementById('userr').innerHTML="** only alphabet are allowed **";
+                }else if(wordCount < 2){
+                document.getElementById('userr').innerHTML="** minimum two words required **";
+            } else
+              
+               {
+                 document.getElementById('userr').innerHTML="";
+            }
+
+           var name= user.split(' ')[0]; 
+            
+            // if(wordCount < 2){
+            //     document.getElementById('userr').innerHTML="** minimum two words required **";
+            // } else{
+            //      document.getElementById('userr').innerHTML="";
+            //    }
+            
+
+
+             var emailcheck= document.getElementById('email').value;
+            
+              var pattern = /^([A-Za-z0-9\._]+)@([A-Za-z0-9])+.([a-z]+)(.[a-z]+)?$/
+              if(emailcheck=="")
+              {
+                 document.getElementById('eemail').innerHTML="**please enter  Email**";
+                 //return false;
+             }
+            else if(!pattern.test(emailcheck)){
+                 document.getElementById('eemail').innerHTML="** sorry! Incorrect EmailId **";
+                // return false;
+                 }else if(pattern.test(emailcheck)){
+                   document.getElementById('eemail').innerHTML="";
+                  
+                }
+             
+           
+            
+
+
+                var mobile= document.getElementById('mobile-no').value;
+                var mobilePattern = /^[0-9]{3}[0-9]{3}[0-9]{4}$/;
+                // if(isNaN(mobile)){
+                //     document.getElementById('number').innerHTML="** only digits are allowed **";
+                // // return false;
+                // }
+                
+                  if(mobile.length<10)
+                {
+                    document.getElementById('number').innerHTML="** enter 10 digit mobile number **";
+                 
+                }
+                else if(mobile.length>10)
+                {
+                    document.getElementById('number').innerHTML="** only  10 digit mobile number allowed **";
+              
+                } else{
+                    document.getElementById('number').innerHTML="";
+                }
+
+                if(isNaN(mobile) || !mobilePattern.test(mobile)){
+                 document.getElementById('number').innerHTML="** sorry! Incorrect Mobile Number **";
+                
+                 }
+                else {
+                    document.getElementById('number').innerHTML="";
+                }
+
+                var first = mobile.substring(0, 3);
+                var second = mobile.substring(3, 6);
+                var provider;
+                if (first >=621 && first<=799) {
+                    provider= 'Reliance Jio';
+                 //   console.log("Reliance Jio");
+
+            }else if(first >=801 && first<=920) {
+                provider= 'Idea';
+                //console.log("Idea");
+            }else if(first >=921 && first<=999) {
+                provider= 'Vodaphone';
+                //console.log("Idea");
+            } else{
+                provider = 'Invalid'
+            }
+
+            document.getElementById('provider').innerHTML = provider;
+
+
+
+            var states = {"101": "maharashtra",  '102' : 'Arunachal Pradesh','103' : 'Assam','104' : 'Bihar','105' : 'Chhattisgarh','106' : 'Goa','107' : 'Gujarat','108' : 'Haryana','109' : 'Himachal Pradesh','110' : 'Jammu and Kashmir','111'  :'Jharkhand','112' : 'Karnataka','113' : 'Kerala','114' : 'Madhya Pradesh','115' : ' Arunachal Pradesh','116' : 'Manipur','117' : 'Meghalaya','118' : 'Mizoram','119' : 'Nagaland','120' : 'Odisha','121' : 'Punjab','122' : 'Rajasthan','123' : 'Sikkim','124' : 'Tamil Nadu','125' : 'Telangana','126' :'Tripura','127' : 'Uttar Pradesh','128' : 'Uttarakhand','129' : 'West Bengal','130' : 'Andaman and Nicobar Islands','131' : 'Chandigarh','132' : 'Dadra and Nagar Haveli','133' : 'Daman and Diu','134' : 'Lakshadweep','135' : 'National Capital Territory of Delhi','136' : 'Puducherry' }; // your json object names.json
+            var stateCode = second;
+            var stateName = states[stateCode]; // here you get the name
+            console.log(stateName); // do stuff
+        
+            document.getElementById('state').innerHTML = stateName;
+
+            console.log(Math.floor(1000 + Math.random() * 9000));
+
+            var otp;
+
+
+                if(document.getElementById('userr').innerHTML=="" && document.getElementById('eemail').innerHTML =="" && document.getElementById('number').innerHTML==""){
+                    isValid = true;
+                    otp = Math.floor(1000 + Math.random() * 9000);
+                    document.getElementById('otp').innerHTML = otp;
+                    validationNumber = parseInt(document.getElementById('otp').innerHTML);
+
+                    var mobilenumber=document.getElementById('mobile-no').value;
+        document.getElementById('message').innerHTML ='Dear '+name+' Thank you for your Inquiry. A 4 digit verification number has been sent to your phone number '+mobilenumber+', please enter in the following box and submit for confirmation.'
+                }else{
+                    return false;
+                }
+
+                
+        }
+        function validateBtn(){
+            var attempt = 3;
+                    console.log('submit', validationNumber);
+                    var otpNumber=document.getElementById('random').value;
+                    console.log('submit', validationNumber, otpNumber);
+                    
+                    if(validationNumber == otpNumber ){
+                        document.getElementById('success').innerHTML = 'Validation successfull';
+                                                // Simulate a mouse click:
+                        window.location.href = "http://pixel6.co";
+
+                        // Simulate an HTTP redirect:
+                        window.location.replace("http://pixel6.co");
+                    } else {
+                        window.location.href = "http://pixel6.co/404";
+
+// Simulate an HTTP redirect:
+window.location.replace("http://pixel6.co/404");
+                    }
+                    }
+                
+
+                    
+        
+    </script>
+</body>
+</html>
